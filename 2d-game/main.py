@@ -6,7 +6,6 @@ import random
 WIDTH = 800
 HEIGHT = 800
 
-backGroundColor = (255, 255, 55)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('game by github: @jpsoares01')
 backGroundImg = pygame.image.load("2d-game/sprites/Grass.png").convert_alpha()

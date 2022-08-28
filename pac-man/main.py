@@ -24,18 +24,18 @@ class player_posicao():
 
 player = player_posicao()
 
-# class player_img(pygame.sprite.Sprite):
-# 	def __init__(self):
-# 		pygame.sprite.Sprite.__init__(self)
-# 		self.image = pygame.image.load(playerImg)
-# 		self.rect = pygame.Rect(32, 32, 32, 32)
+class player_img(pygame.sprite.Sprite):
+	def __init__(self):
+		pygame.sprite.Sprite.__init__(self)
+		self.image = pygame.image.load("2d-game/sprites/player_f1.png")
+		self.rect = pygame.Rect(32, 32, 32, 32)
 
-# 	def update(self, *args):
-# 		self.image = pygame.transform.scale(self.image[32,32])
+	def update(self, *args):
+		self.image = pygame.transform.scale(self.image, [32,32])
 
-# playerGroup = pygame.sprite.Group()
-# player = player_img
-# playerGroup.add(player)
+playerGroup = pygame.sprite.Group()
+player = player_img()
+playerGroup.add(player)
 
 def make_matriz_mapa():
 	for column in range(25):
@@ -43,6 +43,13 @@ def make_matriz_mapa():
 		for line in range(25):
 			aux.append("")
 		map.append(aux)
+
+
+def draw():
+	playerGroup.draw(screen)
+
+def update():
+	playerGroup.update()
 
 def draw_backGround(map):
 	screen.fill(backGroundColor)
@@ -58,10 +65,10 @@ def draw_wall(map):
 
 def draw_player(map, x , y):
 	# draw_game()
-	map[x][y] = screen.blit(playerImg, (x*32,y*32))
+	map[x][y] = screen.blit(update, (x*32,y*32))
 
 def draw_game():
-	draw_backGround(map)
+	# draw_backGround(map)
 	draw_wall(map)
 
 def check_step(map, code):
@@ -76,7 +83,7 @@ def game_loop(map):
 	running = 1
 	while running:
 		clock.tick(30)
-		# screen.blit(backGround, (0, 0))
+		screen.blit(backGround, (0, 0))
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_DOWN:
@@ -93,6 +100,8 @@ def game_loop(map):
 			pygame.display.update()
 			if event.type == pygame.QUIT:
 				running = 0
+		update()
+		draw()
 		pygame.display.update()
 
 make_matriz_mapa()

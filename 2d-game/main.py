@@ -1,22 +1,24 @@
-from curses import KEY_DOWN
-from platform import python_branch
 import pygame
 import random
 
-WIDTH = 800
-HEIGHT = 800
+WIDTH = 700
+HEIGHT = 700
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('game by github: @jpsoares01')
-backGroundImg = pygame.image.load("2d-game/sprites/Grass.png").convert_alpha()
+backGroundImg = pygame.image.load("sprites/Grass.png").convert_alpha()
 backGround = pygame.transform.scale(backGroundImg, [WIDTH, HEIGHT])
-wallImg = pygame.image.load("2d-game/sprites/arbusto.png").convert_alpha()
-playerImg = pygame.image.load("2d-game/sprites/player_f1.png").convert_alpha()
-exitImg = pygame.image.load("2d-game/sprites/exit_1.png").convert_alpha()
-collectableImg = pygame.image.load("2d-game/sprites/coletavel.png").convert_alpha()
-exitOpenImg = pygame.image.load("2d-game/sprites/exit-open.png").convert_alpha()
+wallImg = pygame.image.load("sprites/arbusto.png").convert_alpha()
+playerImg = pygame.image.load("sprites/player_f1.png").convert_alpha()
+exitImg = pygame.image.load("sprites/exit_1.png").convert_alpha()
+collectableImg = pygame.image.load("sprites/coletavel.png").convert_alpha()
+exitOpenImg = pygame.image.load("sprites/exit-open.png").convert_alpha()
+enemyImg = pygame.image.load("sprites/esqueleto_1.png").convert_alpha()
 clock = pygame.time.Clock()
 map = []
+
+pixel_h = 0
+pixel_w = 0
 
 class player_posicao():
 	def __init__(self):
@@ -25,12 +27,16 @@ class player_posicao():
 		self.collectable = 0
 		pass
 
-game = player_posicao()
+for largura_tela in range(0, WIDTH, 32):
+	pixel_w += 1
+for altura_tela in range(0, HEIGHT, 32):
+	pixel_h += 1
 
+game = player_posicao()
 def make_matriz_mapa():
-	for column in range(25):
+	for column in range(pixel_h):
 		aux = []
-		for line in range(25):
+		for line in range(pixel_w):
 			aux.append("")
 		map.append(aux)
 
@@ -49,11 +55,21 @@ def draw_wall(map):
 					map[column][line] = 1
 					screen.blit(wallImg, (column*32,line*32))
 			if column == 0 or column == len(map) - 1 or line == 0 or line == len(map)-1:
-				map[column][line] = 1
-				screen.blit(wallImg, (line*32,column*32))
+					#if column != 1 or line != 1:
+					map[column][line] = 1
+					screen.blit(wallImg, (line*32,column*32))
 
 def draw_player():
 	screen.blit(playerImg, (game.player_x*32,game.player_y*32))
+
+def draw_enemy():
+	for column in range(len(map)):
+		for line in range(len(map)):
+			if map[column][line] == 0:
+				aux = random.randrange(1, 100)
+				if aux == 5:
+					map[column][line] = 'I'
+					screen.blit(enemyImg, (column*32,line*32))
 
 def draw_collectable(map):
 	for column in range(2,len(map)):
@@ -71,7 +87,11 @@ def draw_exit():
 
 def draw_game():
 	draw_backGround(map)
+	draw_player()
 	draw_wall(map)
+	draw_exit()
+	draw_enemy()
+	draw_collectable(map)
 
 def check_step(map, code):
 	if game.collectable > 0:
@@ -144,7 +164,6 @@ def game_loop(map):
 
 make_matriz_mapa()
 draw_game()
-draw_player()
-draw_collectable(map)
-draw_exit()
+print("pixel_w: ",pixel_w, "  pixel_h: ", pixel_h)
 game_loop(map)
+

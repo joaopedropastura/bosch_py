@@ -21,3 +21,9 @@ print(lista2)
 print("")
 lista3 = boston["age"].unique
 print(lista3)
+print("")
+lista4 = boston["age"]
+# func para excluir inteiramente todas as linhas que possuem um indice com o valor: "nan" .dropna() 
+# sobrescrevendo a propria variavel que esta armazenando o DataFrame
+#  func para trocar os valores "nan" .fillna(valor que deseja substituir)
+#https://medium.com/data-hackers/uma-introdu%C3%A7%C3%A3o-simples-ao-pandas-1e15eea37fa1

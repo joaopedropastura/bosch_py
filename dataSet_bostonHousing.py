@@ -18,3 +18,6 @@ print(lista.head(14))
 lista2 = boston.loc[:13,["crim", "medv"]]
 print("")
 print(lista2)
+print("")
+lista3 = boston["age"].unique
+print(lista3)

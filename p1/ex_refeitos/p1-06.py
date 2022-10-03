@@ -1,7 +1,10 @@
 def change_to_num(phrase):
     encrypt = ''
     for i in phrase:
-        encrypt += str((ord(i)-97))
+        if i >= '0' and i <= '9':
+            encrypt += i
+        else:
+            encrypt += str((ord(i)-97))
     return encrypt
 
 def change_to_bin(encrypt):
